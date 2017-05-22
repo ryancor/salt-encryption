@@ -1,3 +1,5 @@
+require 'zlib'
+
 class Ringo
 	def self.encrypt(str)
    s = str.split("")
@@ -11,13 +13,15 @@ class Ringo
 		     arr << (v.codepoints.first + 5).chr
 		  end
     end
-    return arr.join("")
+    encrypted_string = Zlib::Deflate.deflate(arr.join(""))
+		return encrypted_string
 	end
 
 	def self.decrypt(str)
-   s = str.split("")
+   s = Zlib::Inflate.inflate(str)
+	 split = s.split("")
    arr = []
-   s.each_with_index do |v, i|
+   split.each_with_index do |v, i|
 		  if i.between?(0, 5)
 	       arr << (v.codepoints.first - 3).chr
 		  elsif i.between?(6, 10)
@@ -26,7 +30,8 @@ class Ringo
 		     arr << (v.codepoints.first - 5).chr
 		  end
     end
-    return arr.join("")
+    decrypted_string = arr.join("")
+		return decrypted_string
 	end
 end
 
@@ -36,9 +41,9 @@ answer = gets.chomp
 if ['Encrypt', 'encrypt'].include?(answer)
 	puts "Enter text:"
 	msg = gets.chomp
-	puts "\nEncrypted Message: #{Ringo.encrypt(msg)}"
+	p "\nEncrypted Message: #{Ringo.encrypt(msg)}"
 else
 	puts "Enter encrypted text:"
 	msg = gets.chomp
-	puts "\nDecrypted Message: #{Ringo.decrypt(msg)}"
+	p "\nDecrypted Message: #{Ringo.decrypt(msg)}"
 end
