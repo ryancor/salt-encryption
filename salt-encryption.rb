@@ -18,20 +18,24 @@ class Ringo
 	end
 
 	def self.decrypt(str)
-   s = Zlib::Inflate.inflate(str)
-	 split = s.split("")
-   arr = []
-   split.each_with_index do |v, i|
-		  if i.between?(0, 5)
-	       arr << (v.codepoints.first - 3).chr
-		  elsif i.between?(6, 10)
-	  	   arr << (v.codepoints.first - 8).chr
-	    elsif i > 10
-		     arr << (v.codepoints.first - 5).chr
-		  end
-    end
-    decrypted_string = arr.join("")
-		return decrypted_string
+	 begin
+   	s = Zlib::Inflate.inflate(str)
+		 split = s.split("")
+	   arr = []
+	   split.each_with_index do |v, i|
+			  if i.between?(0, 5)
+		       arr << (v.codepoints.first - 3).chr
+			  elsif i.between?(6, 10)
+		  	   arr << (v.codepoints.first - 8).chr
+		    elsif i > 10
+			     arr << (v.codepoints.first - 5).chr
+			  end
+	    end
+	    decrypted_string = arr.join("")
+			return decrypted_string
+		rescue Exception => e
+ 		 puts "Issue: #{e}"
+ 	 end
 	end
 end
 
