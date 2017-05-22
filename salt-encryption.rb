@@ -19,7 +19,7 @@ class Ringo
 
 	def self.decrypt(str)
 	 begin
-   	s = Zlib::Inflate.inflate(str)
+   	 s = Zlib::Inflate.inflate(str)
 		 split = s.split("")
 	   arr = []
 	   split.each_with_index do |v, i|
