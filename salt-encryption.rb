@@ -54,11 +54,10 @@ answer = gets.chomp
 if ['Encrypt', 'encrypt'].include?(answer)
 	puts "Enter text:"
 	msg = gets.chomp
-	p "\nEncrypted Message: #{Ringo.encrypt(msg)}"
+	puts "\n"
+	p "Encrypted Message: #{Ringo.encrypt(msg)}"
 elsif ['Store', 'store'].include?(answer)
-	puts "Enter key:"
-	msg = gets.chomp
-	Ringo.store_key(msg)
+	puts "\necho '{key}' >> store_keys.txt"
 else
-	p "\nDecrypted Message: #{Ringo.decrypt}"
+	puts "\nDecrypted Message: #{Ringo.decrypt}"
 end
