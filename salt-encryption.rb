@@ -2,7 +2,7 @@ require 'zlib'
 
 class Ringo
 	def self.store_key(key)
-		file = File.open("test.txt", 'w')
+		file = File.open("store_keys.txt", 'w')
 		file.write(key)
 	end
 
@@ -19,14 +19,14 @@ class Ringo
 		  end
     end
     encrypted_string = Zlib::Deflate.deflate(arr.join(""))
-		file = File.open("test.txt", 'w')
+		file = File.open("store_keys.txt", 'w')
 		file.write(encrypted_string)
 		return encrypted_string
 	end
 
 	def self.decrypt
 	 begin
-		 File.open("test.txt").each do |line|
+		 File.open("store_keys.txt").each do |line|
 			 s = Zlib::Inflate.inflate(line)
 			 split = s.split("")
 		   arr = []
