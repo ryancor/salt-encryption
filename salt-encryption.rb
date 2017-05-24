@@ -1,12 +1,12 @@
-require 'zlib'
+class BaseEncryptionHandler
 
-class Ringo
-	def self.store_key(key)
-		file = File.open("~/.store_keys.txt", 'w')
-		file.write(key)
+	def store_key(key)
+		# Appends to the file. if the file doesnt exist, makes a new one.
+		file = File.open(File.join(ENV['HOME'], ".store_keys.txt"), 'a+')
+		file.write(key + "\n")
 	end
 
-	def self.encrypt(str)
+	def encrypt(str)
 		s = str.split("")
 		arr = []
 		s.each_with_index do |v, i|
@@ -21,7 +21,7 @@ class Ringo
 		return arr.join("")
 	end
 
-	def self.decrypt(str)
+	def decrypt(str)
 		s = str.split("")
 		arr = []
 		s.each_with_index do |v, i|
@@ -38,17 +38,31 @@ class Ringo
 
 end
 
+
+# - So far, this main just instantiates the encryption class,
+# - and uses its methods only.
+
+## MAIN ##
+
+crypt_handler = BaseEncryptionHandler.new()
+
 puts "Encrypt, Decrypt, or Store Key?"
 answer = gets.chomp
 
 if ['Encrypt', 'encrypt'].include?(answer)
-	puts "Enter text:"
+	puts "Enter text to encrypt: "
 	msg = gets.chomp
 	puts "\n"
-	p "Encrypted Message: #{Ringo.encrypt(msg)}"
+	puts "Encrypted Message: #{crypt_handler.encrypt(msg)}"
+
 elsif ['Store', 'store'].include?(answer)
-	puts "\necho '{key}' >> store_keys.txt"
-else
+	puts "Enter key: "
 	msg = gets.chomp
-	puts "\nDecrypted Message: #{Ringo.decrypt(msg)}"
+	crypt_handler.store_key(msg)
+
+else
+	puts "Enter text to decrypt: "
+	msg = gets.chomp
+	puts "\nDecrypted Message: #{crypt_handler.decrypt(msg)}"
+
 end
