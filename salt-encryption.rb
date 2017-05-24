@@ -24,7 +24,7 @@ class Ringo
 	def self.decrypt(str)
 		s = str.split("")
 		arr = []
-		split.each_with_index do |v, i|
+		s.each_with_index do |v, i|
 			if i.between?(0, 5)
 				arr << (v.codepoints.first - 3).chr
 			elsif i.between?(6, 10)
@@ -49,5 +49,6 @@ if ['Encrypt', 'encrypt'].include?(answer)
 elsif ['Store', 'store'].include?(answer)
 	puts "\necho '{key}' >> store_keys.txt"
 else
-	puts "\nDecrypted Message: #{Ringo.decrypt}"
+	msg = gets.chomp
+	puts "\nDecrypted Message: #{Ringo.decrypt(msg)}"
 end
